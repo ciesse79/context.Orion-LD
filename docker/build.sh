@@ -5,7 +5,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 TOKEN=$1
 REV=$2
-TEST=$3
+KREV=$3
+TEST=$4
 
 HOME='/opt'
 
@@ -71,6 +72,7 @@ TO_CLEAN=(
 )
 
 echo "Building ${REV}"
+echo "Using ${KREV} k* tools"
 cd ${HOME}
 
 apt-get -y update
@@ -101,16 +103,19 @@ ldconfig
 
 git clone https://gitlab-ci-token:${TOKEN}@gitlab.com/kzangeli/kbase.git ${HOME}/kbase
 cd ${HOME}/kbase
+git checkout ${KREV}
 make
 make install
 
 git clone https://gitlab-ci-token:${TOKEN}@gitlab.com/kzangeli/klog.git ${HOME}/klog
 cd ${HOME}/klog
+git checkout ${KREV}
 make
 make install
 
 git clone https://gitlab-ci-token:${TOKEN}@gitlab.com/kzangeli/kjson.git ${HOME}/kjson
 cd ${HOME}/kjson
+git checkout ${KREV}
 mkdir bin
 make
 make install
